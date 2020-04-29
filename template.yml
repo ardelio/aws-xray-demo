@@ -5,6 +5,39 @@ Description: A demonstration on using AWS XRay with S3, SQS and Lambda
 Resources:
   Bucket:
     Type: AWS::S3::Bucket
+    Properties:
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: 1
+            Status: Enabled
+      NotificationConfiguration:
+        QueueConfigurations:
+          - Event: s3:ObjectCreated:*
+            Queue: !GetAtt NewObjectQueue.Arn
+
+  NewObjectQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: AwsXrayDemo-NewObjectQueue
+
+  NewObjectQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: '*'
+            Action:
+              - SQS:SendMessage
+            Resource: !GetAtt NewObjectQueue.Arn
+            Condition:
+              ArnLike:
+                aws:SourceArn: !GetAtt Bucket.Arn
+      Queues:
+        - !Ref 'NewObjectQueue'
+
   Lambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -19,6 +52,7 @@ Resources:
 Outputs:
   BucketName:
     Value: !Ref 'Bucket'
+  NewObjectQueueArn:
+    Value: !GetAtt NewObjectQueue.Arn
   ProcessNewS3ObjectsLambdaArn:
     Value: !GetAtt Lambda.Arn
-

@@ -26,6 +26,10 @@ echo "my-bucket-name" > .bucket-name
 
 Ensure you are logged into the relevant AWS account.
 
+> Note: If deploying for the first time, remove (or comment out) the NotificationConfiguration property on the S3 bucket for the first deploy. You can then add back in and deploy a second time. This is a known problem with applying NotificationConfigurations on a bucket to a target resource in the same stack.
+
+Then run the command:
+
 ```
 make deploy
 ```
