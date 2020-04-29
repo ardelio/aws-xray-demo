@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: A demonstration on using AWS XRay with S3, SQS and Lambda
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+  Lambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: AwsXrayDemo-ProcessNewS3Objects
+      Description: Process S3 Objects as they are created.
+      Runtime: nodejs12.x
+      Handler: src/handler.handler
+      CodeUri: .
+      MemorySize: 512
+      Timeout: 10
+
+Outputs:
+  BucketName:
+    Value: !Ref 'Bucket'
+  ProcessNewS3ObjectsLambdaArn:
+    Value: !GetAtt Lambda.Arn
+

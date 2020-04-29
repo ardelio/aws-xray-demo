@@ -1,0 +1,15 @@
+{
+  "name": "aws-xray-demo",
+  "version": "1.0.0",
+  "description": "AWS XRay demonstration",
+  "private": true,
+  "engines": {
+    "node": "^12.16.1"
+  },
+  "scripts": {},
+  "license": "ISC",
+  "devDependencies": {},
+  "files": [
+    "src/**"
+  ]
+}
