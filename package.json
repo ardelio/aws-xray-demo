@@ -6,10 +6,20 @@
   "engines": {
     "node": "^12.16.1"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "npx jest",
+    "test:watch": "npx jest --watch"
+
+  },
   "license": "ISC",
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^25.5.0"
+  },
   "files": [
     "src/**"
-  ]
+  ],
+  "dependencies": {
+    "aws-sdk": "^2.665.0",
+    "aws-xray-sdk": "^3.0.0"
+  }
 }

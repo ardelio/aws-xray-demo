@@ -48,6 +48,10 @@ Resources:
       CodeUri: .
       MemorySize: 512
       Timeout: 10
+      Tracing: Active
+      Environment:
+        Variables:
+          DYNAMODB_TABLE_NAME: !Ref Table
       Policies:
         - Version: '2012-10-17'
           Statement:
@@ -69,6 +73,12 @@ Resources:
               Action:
                 - dynamodb:PutItem
               Resource: !GetAtt Table.Arn
+            - Sid: SendTraceToXray
+              Effect: Allow
+              Action:
+                - xray:PutTraceSegments
+                - xray:PutTelemetryRecords
+              Resource: '*'
 
   LambdaEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping

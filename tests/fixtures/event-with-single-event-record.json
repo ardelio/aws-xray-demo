@@ -1,0 +1,5 @@
+{
+  "Records": [{
+      "body": "{\"Records\":[{\"eventVersion\":\"2.1\",\"eventSource\":\"aws:s3\",\"awsRegion\":\"ap-southeast-2\",\"eventTime\":\"2020-04-29T04:33:45.266Z\",\"eventName\":\"ObjectCreated:Put\",\"userIdentity\":{\"principalId\":\"AWS:AROAVYSEMINVYVZX23DNQ:Anthony.Sceresini@rest.com.au\"},\"requestParameters\":{\"sourceIPAddress\":\"14.203.190.232\"},\"responseElements\":{\"x-amz-request-id\":\"7F750203E10689CB\",\"x-amz-id-2\":\"cyd1zJTafI53y9/E/1dKv5haa2Pk9RiL7VZ8LiCqQPHUB0P/4z4As5PSZakJG0Mga2jH8Fg1NsKVYoH77twT71FBd2ndKYD4\"},\"s3\":{\"s3SchemaVersion\":\"1.0\",\"configurationId\":\"fdead218-dd6c-49fe-b27b-8e06082df382\",\"bucket\":{\"name\":\"aws-xray-demo-bucket-1xm9j1cmiyc82\",\"ownerIdentity\":{\"principalId\":\"A1RF8XKVU5Q18E\"},\"arn\":\"arn:aws:s3:::aws-xray-demo-bucket-1xm9j1cmiyc82\"},\"object\":{\"key\":\"file-1.json\",\"size\":21,\"eTag\":\"20355efabaae9ed4d51fbc5a68eb4ce3\",\"sequencer\":\"005EA903A98BB540AA\"}}}]}"
+    }]
+}
