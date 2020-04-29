@@ -64,6 +64,11 @@ Resources:
               Action:
                 - s3:GetObject
               Resource: !Sub '${Bucket.Arn}/*'
+            - Sid: allowDynamoDbWrite
+              Effect: Allow
+              Action:
+                - dynamodb:PutItem
+              Resource: !GetAtt Table.Arn
 
   LambdaEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping
@@ -73,6 +78,20 @@ Resources:
       EventSourceArn: !GetAtt 'NewObjectQueue.Arn'
       FunctionName: !GetAtt 'Lambda.Arn'
 
+  Table:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: AwsXrayDemoTable
+      AttributeDefinitions:
+        - AttributeName: filename
+          AttributeType: S
+      KeySchema:
+        - AttributeName: filename
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
 Outputs:
   BucketName:
     Value: !Ref 'Bucket'
@@ -80,3 +99,5 @@ Outputs:
     Value: !GetAtt NewObjectQueue.Arn
   ProcessNewS3ObjectsLambdaArn:
     Value: !GetAtt Lambda.Arn
+  TableArn:
+    Value: !GetAtt Table.Arn

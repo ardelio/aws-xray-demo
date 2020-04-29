@@ -7,11 +7,12 @@ In this case, the system contains the following resources:
 - AWS S3 Bucket
 - AWS SQS Standard Message Queue
 - AWS Lambda Function
+- AWS DynamoDB Table
 
 The workflow being traced is:
 
 ```
-Object -:upload:-> S3 Bucket -:messages:-> SQS Queue -:triggers:-> Lambda Function
+Object -:upload:-> S3 Bucket -:messages:-> SQS Queue -:triggers:-> Lambda Function -:puts:-> DynamoDB Table
 ```
 
 ## Setup
