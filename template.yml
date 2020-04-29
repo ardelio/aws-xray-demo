@@ -48,6 +48,30 @@ Resources:
       CodeUri: .
       MemorySize: 512
       Timeout: 10
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Sid: allowReadNewOjectQueue
+              Effect: Allow
+              Action:
+                - sqs:ReceiveMessage
+                - sqs:DeleteMessage
+                - sqs:GetQueueAttributes
+                - sqs:ChangeMessageVisibility
+              Resource: !GetAtt NewObjectQueue.Arn
+            - Sid: allowReadS3
+              Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource: !Sub '${Bucket.Arn}/*'
+
+  LambdaEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 1
+      Enabled: true
+      EventSourceArn: !GetAtt 'NewObjectQueue.Arn'
+      FunctionName: !GetAtt 'Lambda.Arn'
 
 Outputs:
   BucketName:
