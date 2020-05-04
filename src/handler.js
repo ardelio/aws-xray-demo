@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 
 const { AWS } = require('./instrumented-modules');
 const extractObjectDetailsFromEvent = require('./extract-object-details-from-event');
+const { captureAsyncFunction, captureFunction } = require('./tracing-instrumentation');
 
 exports.handler =  async function(event) {
   console.log("EVENT: \n" + JSON.stringify(event, null, 2))
@@ -10,7 +11,11 @@ exports.handler =  async function(event) {
 
   const filledS3ObjectsDetails = await supplimentWithS3Objects(partialS3ObjectDetails);
 
-  await demonstrateInstrumentingHttps()
+  await demonstrateInstrumentingHttps();
+
+  await demonstrateInstrumentingAsyncFunction();
+
+  demonstrateInstrumentingFunction();
 
   await saveToDatabase(filledS3ObjectsDetails);
 }
@@ -55,4 +60,31 @@ async function saveToDatabase(objectDetails) {
 
 function demonstrateInstrumentingHttps() {
   return fetch('https://google.com');
+}
+
+async function demonstrateInstrumentingAsyncFunction() {
+  const functionToInstrument = async (firstLogComment, secondLogComment, timeInMilliseconds) => {
+    console.log(firstLogComment);
+
+    await new Promise(resolve => setTimeout(resolve, timeInMilliseconds));
+
+    console.log(secondLogComment);
+  };
+
+  return captureAsyncFunction('demonstrate-instrumenting-an-async-function', functionToInstrument, ['my first log', 'my second log', 5000]);
+}
+
+function demonstrateInstrumentingFunction() {
+  const logAllItems = (items) => {
+    items.forEach(item => {
+      captureFunction('logging-to-console', console.log, ['logging item: ', item]);
+    });
+    return items.length;
+  };
+  const items = [
+    'first item',
+    'second item',
+  ];
+  const numberOfItemsLogged = captureFunction('demonstrate-instrumenting-a-function', logAllItems, [items]);
+  console.log('numberOfItemsLogged:', numberOfItemsLogged);
 }
