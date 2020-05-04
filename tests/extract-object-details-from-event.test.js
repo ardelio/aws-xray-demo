@@ -1,4 +1,4 @@
-const extractObjectDetailsFromEvent = require('../src/extractObjectDetailsFromEvent');
+const extractObjectDetailsFromEvent = require('../src/extract-object-details-from-event');
 
 describe('extractObjectDetailsFromEvent', () => {
   describe('with one event record', () => {

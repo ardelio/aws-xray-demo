@@ -1,5 +1,5 @@
 const AWS = require('./aws-sdk');
-const extractObjectDetailsFromEvent = require('./extractObjectDetailsFromEvent');
+const extractObjectDetailsFromEvent = require('./extract-object-details-from-event');
 
 exports.handler =  async function(event) {
   console.log("EVENT: \n" + JSON.stringify(event, null, 2))
