@@ -1,4 +1,6 @@
-const AWS = require('./aws-sdk');
+const fetch = require('node-fetch');
+
+const { AWS } = require('./instrumented-modules');
 const extractObjectDetailsFromEvent = require('./extract-object-details-from-event');
 
 exports.handler =  async function(event) {
@@ -7,6 +9,8 @@ exports.handler =  async function(event) {
   const partialS3ObjectDetails = extractObjectDetailsFromEvent(event);
 
   const filledS3ObjectsDetails = await supplimentWithS3Objects(partialS3ObjectDetails);
+
+  await demonstrateInstrumentingHttps()
 
   await saveToDatabase(filledS3ObjectsDetails);
 }
@@ -47,4 +51,8 @@ async function saveToDatabase(objectDetails) {
 
     return dynamodb.putItem(params).promise();
   }));
+}
+
+function demonstrateInstrumentingHttps() {
+  return fetch('https://google.com');
 }
