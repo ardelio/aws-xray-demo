@@ -20,6 +20,6 @@
   "dependencies": {
     "aws-sdk": "^2.665.0",
     "aws-xray-sdk": "^3.0.0",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.7"
   }
 }
